@@ -1,4 +1,3 @@
-```markdown
 # FastAPI TodoApp
 
 This is a simple FastAPI application for managing TODO items. 
