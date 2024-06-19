@@ -2,8 +2,8 @@ from typing import Annotated
 from pydantic import BaseModel, Field
 from sqlalchemy.orm import Session
 from fastapi import APIRouter, Depends, HTTPException, status, Path
-from models import Users
-from database import SessionLocal
+from TodoApp.models import Users
+from TodoApp.database import SessionLocal
 from .auth import get_current_user, bcrypt_context
 
 router = APIRouter(
@@ -40,7 +40,7 @@ async def get_user(user: user_dependency, db: db_depenency):
     user_model = db.query(Users).filter(Users.id == user.get('id')).first()
 
     if user_model is None:
-        raise HTTPException(status=401, detail='Authentication Failed')
+        raise HTTPException(status_code=401, detail='Authentication Failed')
 
     return user_model
 
@@ -48,7 +48,7 @@ async def get_user(user: user_dependency, db: db_depenency):
 @router.put("/change-password", status_code=status.HTTP_204_NO_CONTENT)
 async def change_password(user: user_dependency, db: db_depenency, form_request: ChangePasswordRequest):
     if user is None:
-        raise HTTPException(status=401, detail='Authentication Failed')
+        raise HTTPException(status_code=401, detail='Authentication Failed')
 
     user_model = db.query(Users).filter(Users.id == user.get('id')).first()
 
@@ -66,7 +66,7 @@ async def change_password(user: user_dependency, db: db_depenency, form_request:
 @router.put("/update-phone-number", status_code=status.HTTP_204_NO_CONTENT)
 async def change_password(user: user_dependency, db: db_depenency, form_request: UpdatePhoneNumberRequest):
     if user is None:
-        raise HTTPException(status=401, detail='Authentication Failed')
+        raise HTTPException(status_code=401, detail='Authentication Failed')
 
     user_model = db.query(Users).filter(Users.id == user.get('id')).first()
 
